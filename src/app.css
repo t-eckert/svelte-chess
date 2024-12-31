@@ -1,0 +1,10 @@
+html {
+	font-family: sans-serif;
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: radial-gradient(black, #540f24);
+}
