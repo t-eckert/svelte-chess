@@ -5,4 +5,8 @@
 	const { children } = $props();
 </script>
 
+<svelte:head>
+	<title>Chess</title>
+</svelte:head>
+
 {@render children()}
