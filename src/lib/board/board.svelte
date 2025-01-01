@@ -2,7 +2,6 @@
 	import Cell from '$lib/cell/cell.svelte';
 	import { createBoardState } from './board-state.svelte';
 	import { letters, numbers } from './board';
-	import Debug from '$lib/debug.svelte';
 
 	createBoardState();
 </script>

@@ -13,7 +13,16 @@
 
 	let board = getBoardState();
 
-	let { piece, status } = board.cell({ row, col });
+	let { piece, status } = $derived(board.cell({ row, col }));
+
+	let onclick = () => {
+		console.log('clicked', row, col);
+		if (status !== 'selected') {
+			board.selectCell({ row, col });
+		} else {
+			board.unselectCell();
+		}
+	};
 </script>
 
 <button
@@ -21,6 +30,7 @@
 	class:dark={color === 'dark'}
 	class:light={color === 'light'}
 	disabled={status === 'not-selectable'}
+	{onclick}
 >
 	{#if piece}
 		<Piece {...piece} />
