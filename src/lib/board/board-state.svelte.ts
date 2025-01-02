@@ -1,13 +1,22 @@
 import { setContext, getContext } from "svelte"
-import { createAllFiles, createFileState } from "$lib/file/file-state.svelte"
+import { createAllFiles, type Status } from "$lib/file/file-state.svelte"
 import { type Position } from "$lib/ruleset"
 
 // The Board holds all Files 
 export class Board {
-	files = createAllFiles()
+	#files = createAllFiles()
 
 	file(pos: Position) {
-		return this.files[pos.row][pos.col]
+		return this.#files[pos.row][pos.col]
+	}
+
+	selectFile(pos: Position) {
+		this.setAllFileStatuses("not-selected")
+		this.file(pos).status = "selected"
+	}
+
+	setAllFileStatuses(status: Status) {
+		this.#files.map(row => row.map(file => file.status = status))
 	}
 }
 

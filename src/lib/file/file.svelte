@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getGameState } from '$lib/game-state.svelte';
+	import Piece from '$lib/piece/piece.svelte';
 	import { type Index } from '$lib/ruleset';
 
 	interface Props {
@@ -9,44 +10,66 @@
 
 	let { row, col }: Props = $props();
 
-	let file = getGameState().board.file({ row, col });
+	let game = getGameState();
+	let file = game.board.file({ row, col });
+	let piece = $derived(game.pieceAt({ row, col }));
+
+	let onclick = () => {
+		game.movePiece('king', 'black', { row, col });
+	};
 </script>
 
 <button
-	class="cell"
-	onclick={() => file.onclick()}
-	disabled={file.status === 'not-selectable'}
+	class="file"
+	{onclick}
 	class:light={file.color === 'light'}
 	class:dark={file.color === 'dark'}
 >
-	<span>{row},{col}</span>
+	<span class="file-id">{row},{col}</span>
+	{#if piece}
+		<span class="piece">
+			<Piece />
+		</span>
+	{/if}
 </button>
 
 <style>
-	.cell {
+	.file {
 		height: 5rem;
 		width: 5rem;
-		display: flex;
+		display: grid;
+		grid-template: 1;
 		justify-content: center;
 		align-items: center;
 		border: solid 1px grey;
 	}
 
-	.cell:hover {
+	.file-id {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.piece {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.file.dark:hover,
+	.file.light:hover {
 		background-color: blue;
 	}
 
-	.cell.dark {
+	.file.dark {
 		color: white;
 		background-color: #540f24;
 	}
 
-	.cell.light {
+	.file.light {
 		color: #540f24;
 		background-color: white;
 	}
 
-	.cell:enabled {
+	.file:enabled {
 		border: solid 1px blue;
 	}
 </style>

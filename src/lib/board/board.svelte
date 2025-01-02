@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { letters, numbers, type Index } from '$lib/ruleset';
 	import File from '$lib/file/file.svelte';
+	import { getGameState } from '$lib/game-state.svelte';
+
+	let game = getGameState();
 </script>
 
 <div class="board">

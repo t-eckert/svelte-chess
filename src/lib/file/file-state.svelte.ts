@@ -1,7 +1,7 @@
 import { setContext, getContext } from "svelte"
 import type { Position, Index } from "$lib/ruleset"
 
-type Status = "selectable" | "selected" | "not-selectable"
+export type Status = "selectable" | "selected" | "not-selectable" | "not-selected"
 type Color = "light" | "dark"
 
 // A File is a "square" on the board.
