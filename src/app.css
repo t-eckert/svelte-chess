@@ -1,3 +1,7 @@
+:root {
+	--burgundy: #540f24;
+}
+
 html {
 	font-family: sans-serif;
 	overflow: hidden;
