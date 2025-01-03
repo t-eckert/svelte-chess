@@ -1,9 +1,24 @@
 <script lang="ts">
-	import KingBlack from './icons/king-black.svelte';
+	import type { Role, Player } from '$lib/ruleset';
+
+	import icons from './icons';
+
+	interface Props {
+		role: Role;
+		player: Player;
+	}
+
+	let { role, player }: Props = $props();
+
+	const Icon = icons.get(`${role}-${player}`);
 </script>
 
 <div class="piece">
-	<KingBlack />
+	{#if Icon}
+		<Icon />
+	{:else}
+		<span>{role} {player}</span>
+	{/if}
 </div>
 
 <style>

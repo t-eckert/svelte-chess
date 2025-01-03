@@ -15,20 +15,23 @@
 	let piece = $derived(game.pieceAt({ row, col }));
 
 	let onclick = () => {
-		game.movePiece('king', 'black', { row, col });
+		game.board.selectFile({ row, col });
 	};
 </script>
 
 <button
 	class="file"
 	{onclick}
+	disabled={file.status === 'not-selectable'}
+	class:selected={file.status === 'selected'}
+	class:selectable={file.status === 'selectable'}
 	class:light={file.color === 'light'}
 	class:dark={file.color === 'dark'}
 >
 	<span class="file-id">{row},{col}</span>
 	{#if piece}
 		<span class="piece">
-			<Piece />
+			<Piece role={piece.role} player={piece.player} />
 		</span>
 	{/if}
 </button>
@@ -44,9 +47,8 @@
 		border: solid 1px grey;
 	}
 
-	.file-id {
-		grid-column: 1;
-		grid-row: 1;
+	.file.selected {
+		background-color: green;
 	}
 
 	.piece {
@@ -71,5 +73,11 @@
 
 	.file:enabled {
 		border: solid 1px blue;
+	}
+
+	.file-id {
+		display: none;
+		grid-column: 1;
+		grid-row: 1;
 	}
 </style>
