@@ -11,24 +11,29 @@
 	let { row, col }: Props = $props();
 
 	let game = getGameState();
-	let file = game.board.file({ row, col });
+	let square = $derived(game.square({ row, col }));
 	let piece = $derived(game.pieceAt({ row, col }));
+	let status = $derived(square.status);
 
 	let onclick = () => {
-		game.board.selectFile({ row, col });
+		if (square.status === 'selectable') {
+			game.selectSquare({ row, col });
+		} else if (square.status === 'selected') {
+			game.unselectSquare({ row, col });
+		}
 	};
 </script>
 
 <button
-	class="file"
 	{onclick}
-	disabled={file.status === 'not-selectable'}
-	class:selected={file.status === 'selected'}
-	class:selectable={file.status === 'selectable'}
-	class:light={file.color === 'light'}
-	class:dark={file.color === 'dark'}
+	class="square"
+	disabled={status === 'not-selectable'}
+	class:selected={status === 'selected'}
+	class:selectable={status === 'selectable'}
+	class:not-selected={status === 'not-selected'}
+	class:light={square.color === 'light'}
+	class:dark={square.color === 'dark'}
 >
-	<span class="file-id">{row},{col}</span>
 	{#if piece}
 		<span class="piece">
 			<Piece role={piece.role} player={piece.player} />
@@ -37,7 +42,7 @@
 </button>
 
 <style>
-	.file {
+	.square {
 		height: 5rem;
 		width: 5rem;
 		display: grid;
@@ -47,7 +52,12 @@
 		border: solid 1px grey;
 	}
 
-	.file.selected {
+	.square:enabled {
+		border: solid 1px blue;
+	}
+
+	.square.dark.selected,
+	.square.light.selected {
 		background-color: green;
 	}
 
@@ -56,28 +66,18 @@
 		grid-row: 1;
 	}
 
-	.file.dark:hover,
-	.file.light:hover {
+	.square.dark.selectable:enabled:hover,
+	.square.light.selectable:enabled:hover {
 		background-color: blue;
 	}
 
-	.file.dark {
+	.square.dark {
 		color: white;
 		background-color: #540f24;
 	}
 
-	.file.light {
+	.square.light {
 		color: #540f24;
 		background-color: white;
-	}
-
-	.file:enabled {
-		border: solid 1px blue;
-	}
-
-	.file-id {
-		display: none;
-		grid-column: 1;
-		grid-row: 1;
 	}
 </style>

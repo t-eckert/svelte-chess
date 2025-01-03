@@ -5,11 +5,7 @@
 </script>
 
 <section class="debugger">
-	<div class="pieces">
-		{#each game.pieces as piece}
-			<span>{piece.role} {piece.player} {JSON.stringify(piece.pos)}</span>
-		{/each}
-	</div>
+	<div class="pieces"></div>
 </section>
 
 <style>

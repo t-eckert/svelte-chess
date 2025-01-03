@@ -7,15 +7,25 @@ export class Piece {
 	player: Player
 	idx: number
 
-	pos: Position = $state({ row: 0, col: 0 })
-	offBoard: boolean = $state(true)
+	inJail: boolean = $state(false)
+
+	#pos: Position = $state({ row: 0, col: 0 })
+	#moveCount = $state(0)
 
 	constructor(role: Role, player: Player, idx: number, pos: Position) {
 		this.role = role
 		this.player = player
 		this.idx = idx
-		this.pos = pos
-		this.offBoard = false
+		this.#pos = pos
+	}
+
+	move(to: Position) {
+		this.#pos = to
+		this.#moveCount += 1
+	}
+
+	get pos() {
+		return this.#pos
 	}
 }
 

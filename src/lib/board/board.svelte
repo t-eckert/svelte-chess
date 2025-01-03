@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { letters, numbers, type Index } from '$lib/ruleset';
-	import File from '$lib/file/file.svelte';
-	import { getGameState } from '$lib/game-state.svelte';
-
-	let game = getGameState();
+	import Square from '$lib/square/square.svelte';
 </script>
 
 <div class="board">
@@ -15,7 +12,7 @@
 	{#each numbers as num, row}
 		<span class="number">{num}</span>
 		{#each letters as _, col}
-			<File row={row as Index} col={col as Index} />
+			<Square row={row as Index} col={col as Index} />
 		{/each}
 		<span class="number">{num}</span>
 	{/each}
